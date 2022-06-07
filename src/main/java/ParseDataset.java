@@ -21,14 +21,12 @@ public class ParseDataset {
 
     private static Map<Integer, Long> arrivalRatePerHour = new HashMap<>();
     private static Map<String, Long> arrivalRatePerMinute = new HashMap<>();
-
     private static Map<String, Long> arrivalRatePerSecond = new HashMap<>();
 
 
     public static void main(String[] args) throws IOException, PythonExecutionException {
         parseFile();
         writecsv();
-
     }
 
 
@@ -42,7 +40,6 @@ public class ParseDataset {
                 for (Integer s = 0; s < 60; s++) {
                     String str = h.toString() + m.toString() + s.toString();
                     arrivalRatePerSecond.put(str, 0L);
-
                 }
             }
         }
@@ -69,6 +66,13 @@ public class ParseDataset {
                 System.out.println("Minutes " + arrival_javadate[count].getMinutes());
                 System.out.println("Seconds " + arrival_javadate[count].getSeconds());
 
+                String str = String.valueOf(arrival_javadate[count].getHours()) +
+                        String.valueOf(arrival_javadate[count].getMinutes())+
+                        String.valueOf(arrival_javadate[count].getSeconds());
+
+                arrivalRatePerSecond.put(str,
+                        arrivalRatePerSecond.get(str) + 1);
+
                 arrivalRatePerHour.put(arrival_javadate[count].getHours(),
                         arrivalRatePerHour.get(arrival_javadate[count].getHours()) + 1);
 
@@ -87,6 +91,17 @@ public class ParseDataset {
 
         for (int i = 0; i < 24; i++)
             System.out.println(arrivalRatePerHour.get(i));
+
+
+        for (Integer h = 0; h < 24; h++) {
+            for (Integer m = 0; m < 60; m++) {
+                for (Integer s = 0; s < 60; s++) {
+                    String str = h.toString() + m.toString() + s.toString();
+                    System.out.print(str + "\t");
+                    System.out.println(arrivalRatePerSecond.get(str));
+                }
+            }
+        }
 
 
     }
