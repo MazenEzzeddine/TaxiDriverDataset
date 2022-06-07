@@ -20,6 +20,9 @@ public class ParseDataset {
 
 
     private static Map<Integer, Long> arrivalRatePerHour = new HashMap<>();
+    private static Map<String, Long> arrivalRatePerMinute = new HashMap<>();
+
+    private static Map<String, Long> arrivalRatePerSecond = new HashMap<>();
 
 
     public static void main(String[] args) throws IOException, PythonExecutionException {
@@ -33,6 +36,16 @@ public class ParseDataset {
 
         for (int i = 0; i < 24; i++)
             arrivalRatePerHour.put(i, 0L);
+
+        for (Integer h = 0; h < 24; h++) {
+            for (Integer m = 0; m < 60; m++) {
+                for (Integer s = 0; s < 60; s++) {
+                    String str = h.toString() + m.toString() + s.toString();
+                    arrivalRatePerSecond.put(str, 0L);
+
+                }
+            }
+        }
         int count = 0;
 
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
